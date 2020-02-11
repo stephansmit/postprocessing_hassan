@@ -14,7 +14,7 @@ program post_hassan
      call load_avg_post(0,counter_post, f)
      do k =1,kmax
        do i= 1,imax
-         write(101,"(3E20.10)") k*dz+kmax*f*dz,rp(i),upp(i,k)
+         write(101,"(3E20.10)") k*dz+kmax*f*dz,rp(i),upp(i,k),vpp(i,k), wpp(i,k),RUWpp(i,k)
        enddo
      enddo
   enddo
