@@ -1,0 +1,37 @@
+      integer         i,j,k,imx,imax,jmax,kmax,imax_tot,jmax_tot,kmax_tot,i1,j1,k1
+      integer         px,p_col,p_row,rank,nTab
+      integer         pos(2,6)
+      integer         LoD,counter,conter1,skip,begin,conter2
+      real*8          Re,Pr,Qwall,Gr_0,T_0,Beta_0,Fr_1,TPC,flow
+
+      parameter (p_row=1,p_col=96)
+      parameter (px =p_col*p_row)
+      parameter (imax_tot=126, jmax_tot=288, kmax_tot=1728)
+      parameter (imx               = (imax_tot+2)/p_row -1)
+      parameter (imax              =imax_tot)
+      parameter (jmax              =jmax_tot/p_row)
+      parameter (kmax              =kmax_tot/p_col)
+      parameter (i1                =imax+ 1)
+      parameter (j1                =jmax+ 1)
+      parameter (k1                =kmax+ 1)
+      parameter (counter           =2500)
+      parameter (skip              =1)
+      parameter (begin             =1)
+      parameter (flow              =-1.)
+      parameter (pos               =reshape( (/0,4,23,5,40,2,47,2,71,2,94,2/), (/2, 6/)))
+      parameter (nTab              =2000)
+ 
+      parameter (LoD               =30)
+ 
+      parameter (Re                =360.0)
+      parameter (Pr                =3.19457287)
+      parameter (conter1           =400)
+      parameter (conter2           =75)
+
+      parameter (TPC               =1.021756)
+      parameter (T_0               =301.15)
+      parameter (Beta_0            =0.0225)
+      parameter (Qwall             =2.4)
+      parameter (Gr_0              =2.063e8)
+      parameter (Fr_1              =0/(Beta_0*T_0*Re**2.*Qwall))
+

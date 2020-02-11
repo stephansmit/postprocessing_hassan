@@ -1,0 +1,91 @@
+c *********************************************************** 
+      real*8          Ru(0:i1),Rp(0:i1),dr(0:i1),dphi,dz,tau(kmax),UtauW(kmax),HtauW(kmax),Re_t_w(kmax),
+     1                Re_t_s(imax,kmax),Utau(imax,kmax),bw1,bc1,bu1,bw2,bc2,bu2,br2,Htau(imax,kmax) 
+      common /phsgrd/ Ru,Rp,dr,dphi,dz,tau,UtauW,Re_t_w,Re_t_s,Utau,bw1,bc1,bu1,bw2,bc2,bu2,br2,HtauW,Htau
+      save   /phsgrd/
+
+c *********************************************************** 
+       real*8         Unew(0:i1,jmax,kmax),Vnew(0:i1,jmax,kmax),Wnew(0:i1,jmax,kmax),
+     1                Cnew(0:i1,jmax,kmax),P_2d(0:i1,jmax,kmax)
+      common /new/    Unew,Vnew,Wnew,P_2d,Cnew
+      save   /new/
+
+
+      integer*8       n_uw,n_uc,n_wc,n_ru
+      common /cont/   n_uw,n_uc,n_wc,n_ru
+      save   /cont/
+
+
+      real*8           R1(0:i1,0:j1,0:k1),ekh1(0:i1,0:j1,0:k1),CON1(0:i1,0:j1,0:k1),
+     1                 ekm1(0:i1,0:j1,0:k1),Cp1(0:i1,0:j1,0:k1)
+      common /Prop/     R1,ekh1,Cp1,ekm1,CON1
+      save   /Prop/
+c ***********************************************************      
+      real*8     Pnnff(imax,kmax,4),Velnnff(imax,kmax,4,3),RVelnnff(imax,kmax,4,3),
+     1           Taunnff(imax,kmax,4,3,3),Rnnff(imax,kmax,4),ekmnnff(imax,kmax,4),
+     1           ekhnnff(imax,kmax,4),Knnff(imax,kmax,4),Cpnnff(imax,kmax,4),
+     1           Cnnff(imax,kmax,4),RCnnff(imax,kmax,4),Qnn(imax,kmax,3),Qff(imax,kmax,3),
+     1           Vel_t(imax,kmax,4,3),C_t(imax,kmax,4)
+      common /Avg1/ Pnnff,Velnnff,RVelnnff,Taunnff,Rnnff,ekmnnff,ekhnnff,Knnff,Cpnnff,Cnnff,RCnnff,Qnn,Qff,
+     1              Vel_t,C_t 
+      save   /Avg1/
+
+
+      real*8      Quw(imax,kmax,4),Quh(imax,kmax,4),
+     1            pdfu(imax,kmax,-conter1:conter1),
+     1            pdfw(imax,kmax,-conter1:conter1),pdfc(imax,kmax,-conter1:conter1),
+     1            pdfuw(imax,-conter2:conter2,-conter2:conter2),pdfuc(imax,-conter2:conter2,-conter2:conter2),
+     1            pdfwc(imax,-conter2:conter2,-conter2:conter2),pdfru(imax,-conter2:conter2,-conter2:conter2)
+      common /QOP/ pdfuw,pdfuc,pdfwc,pdfru,Quw,Quh,pdfu,pdfw,pdfc
+      save   /QOP/
+
+
+      real*8     P_p(imax,jmax,kmax),U_p(imax,jmax,kmax),V_p(imax,jmax,kmax),W_p(imax,jmax,kmax),
+     1           U_pp(imax,jmax,kmax),V_pp(imax,jmax,kmax),W_pp(imax,jmax,kmax),
+     1           Tau_p(imax,jmax,kmax,4,3,3),R_p(imax,jmax,kmax),ekm_p(imax,jmax,kmax),
+     1           ekh_p(imax,jmax,kmax),K_p(imax,jmax,kmax),Cp_p(imax,jmax,kmax),
+     1           C_p(imax,jmax,kmax),C_pp(imax,jmax,kmax),Qn_p(imax,jmax,kmax,3),Qf_p(imax,jmax,kmax,3)
+      common /INS1/ P_p,U_p,V_p,W_p,U_pp,V_pp,W_pp,Tau_p,R_p,ekm_p,ekh_p,K_p,Cp_p,C_p,C_pp,Qn_p,Qf_p
+      save   /INS1/
+c ********************************************************       
+      real*8     BPRT(imax,kmax),TDT(imax,kmax),PROT(imax,kmax),EntC(imax,kmax)
+     1           ,VDT(imax,kmax),DST(imax,kmax),CTT (imax,kmax)
+      common /BudgetsT/   BPRT,TDT,PROT,VDT,DST,CTT,EntC
+      save   /BudgetsT/
+
+      real*8     BPRVT(imax,kmax,3),TDVT(imax,kmax,3),PROVT(imax,kmax,3),EntCU1(imax,kmax,3),EntCU2(imax,kmax,3),
+     1           VDVT(imax,kmax,3),DSVT(imax,kmax,3),PDVT(imax,kmax,3),PSVT(imax,kmax,3),
+     1           CTVT(imax,kmax,3)
+      common /BudgetsTH/ BPRVT,TDVT,PROVT,VDVT,DSVT,PDVT,PSVT,CTVT,EntCU1,EntCU2
+      save /BudgetsTH/
+
+      real*8     TD(imax,kmax,4),PRO(imax,kmax,4),EntU1(imax,kmax,4),EntU2(imax,kmax,4),
+     1           VD (imax,kmax,4),DS(imax,kmax,4),PD(imax,kmax,4),
+     1           PS(imax,kmax,4),CTm(imax,kmax,4),BY(imax,kmax,4)
+      common /BudgetsM/ TD,PRO,VD,DS,PD,PS,CTm,EntU1,EntU2,BY
+      save /BudgetsM/
+c ***********************************************************
+      real*8          tempTab(1:nTab),rhoTab(1:nTab),
+     1                muTab(1:nTab),lamTab(1:nTab),
+     1                cpTab(1:nTab),enthTab(1:nTab),lamocpTab(1:nTab),
+     1                temp2Tab(1:nTab),rho2Tab(1:nTab),
+     1                mu2Tab(1:nTab),lam2Tab(1:nTab),
+     1                cp2Tab(1:nTab),enth2Tab(1:nTab),lamocp2Tab(1:nTab)
+      common /table/  tempTab,rhoTab,muTab,lamTab,cpTab,enthTab,lamocpTab,
+     1                temp2Tab,rho2Tab,mu2Tab,lam2Tab,cp2Tab,enth2Tab,lamocp2Tab
+      save   /table/
+
+      real*8    KIN(imax,kmax),RU2pp(imax,kmax),RV2pp(imax,kmax),RW2pp(imax,kmax),RC2pp(imax,kmax),RU3pp(imax,kmax),
+     1          RV3pp(imax,kmax),RW3pp(imax,kmax),RC3pp(imax,kmax),RU4pp(imax,kmax),
+     1          RV4pp(imax,kmax),RW4pp(imax,kmax), RC4pp(imax,kmax),upp(imax,kmax),vpp(imax,kmax),wpp(imax,kmax),cpp(imax,kmax),
+     1          R_rms(imax,kmax),ekh_rms(imax,kmax),ekm_rms(imax,kmax),Cp_rms(imax,kmax),RCUpp(imax,kmax),RCWpp(imax,kmax),
+     1          Ruwpp(imax,kmax),P_rms(imax,kmax) 
+       common /bug2/ KIN,RU2pp,RV2pp,RW2pp,RC2pp,RU3pp,RV3pp,RW3pp,RC3pp,RU4pp,RV4pp,RW4pp,RC4pp,upp,vpp,wpp,cpp,
+     1          R_rms,ekh_rms,ekm_rms,Cp_rms,RCUpp,RCWpp,Ruwpp,P_rms
+      save   /bug2/
+
+
+      real*8     U_plot(0:i1,jmax,kmax),V_plot(0:i1,jmax,kmax),C_plot(0:i1,jmax,kmax),W_plot(0:i1,jmax,kmax)
+      common /PLT/ U_plot,C_plot,W_plot,V_plot
+      save   /PLT/
+
